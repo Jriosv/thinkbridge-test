@@ -11,4 +11,5 @@ After that, turn on the virtual environment, in my case I'm using a bash termina
 Once your virtual environment is running, install the dependencies with the following command:
 >pip install -r requirements.txt
 
-
+After thath, we need to download new browser drivers with the following command:
+>playwright install
