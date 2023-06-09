@@ -2,7 +2,7 @@
 
 ## Execution
 
-Create a virtual environment to manage the project dependencies indepently of your computer  
+Create a virtual environment to manage the project dependencies
 >python -m venv venv
 
 After that, turn on the virtual environment, in my case I'm using a bash terminal so I activate the venv in this way:  
