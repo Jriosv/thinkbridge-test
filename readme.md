@@ -1,4 +1,8 @@
-##
+## Explanation
+- I visited some web pages to extract the url and build a simple CSV.  
+- I used playwright but also bs4 since I don't have a lot of experience with the proposed tool, however, it was an interesting challenge for me.  
+- My web scraping consists in open every company details web page, first bypassing cloudflare human verification, after that took the html and extract some useful data with bs4 to store it in a CSV file.  
+NOTE: There are a lot of things to improve but today I was working in my current job so I only had a couple hours to finish this challenge.
 
 ## Execution
 
