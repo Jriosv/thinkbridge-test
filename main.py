@@ -3,6 +3,7 @@ from playwright.async_api import async_playwright
 from bs4 import BeautifulSoup
 import time
 import pandas as pd
+import re
 
 async def visit_page_and_return_html(url):
     print('visiting web page..')
@@ -56,6 +57,22 @@ async def handle_html(html_content):
     
     url_element = soup.find('a', {'itemprop': 'url'})
     
+    no_of_reviews_str = soup.find('a', {'class': 'link js-log-click'})
+    no_of_reviews_str = no_of_reviews_str.text
+    print(no_of_reviews_str)
+    no_of_reviews = int(re.findall('\d+',no_of_reviews_str)[0])
+    print(no_of_reviews)
+    
+    no_of_stars = soup.find('label', {'class': 'label--hoverable'})
+    data = no_of_stars.text
+    print(data)
+    percentage = int(re.findall('\d\d',data)[0])
+    print(percentage)
+    
+    total_no_reviews  = percentage/100 * no_of_reviews
+    
+    no_stars = data[0]
+    
     try:
         url = url_element['href']
     except:
@@ -64,7 +81,7 @@ async def handle_html(html_content):
         
     
     # Return the extracted data
-    return name,url
+    return name,url,total_no_reviews,no_of_stars
 
 
 async def main():
@@ -75,16 +92,21 @@ async def main():
     
     names = []
     original_urls = []
+    reviews = []
+    stars = []
     
     for url in urls:    
         html_content = await visit_page_and_return_html(url)
 
-        name,url = await handle_html(html_content)
+        name,url,total,stars = await handle_html(html_content)
 
         names.append(name)
         original_urls.append(url)
+        stars.append(str(stars))
+        reviews.append(str(total))
+        
 
-    df_new = pd.DataFrame({'Original names': names, 'Original urls': original_urls})
+    df_new = pd.DataFrame({'Original names': names, 'Original urls': original_urls,'stars':stars, 'Reviews':reviews})
     
     # Save the DataFrame to a CSV file
     df_new.to_csv('scraped_data.csv', index=False)
